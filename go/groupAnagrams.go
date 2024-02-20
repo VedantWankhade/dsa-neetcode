@@ -33,7 +33,8 @@ import (
 )
 
 func main() {
-	fmt.Println(groupAnagrams([]string{"eat", "tea", "tan", "ate", "nat", "bat"}))
+	// fmt.Println(groupAnagrams([]string{"eat", "tea", "tan", "ate", "nat", "bat"}))
+	fmt.Println(groupAnagramsFast([]string{"eat", "tea", "tan", "ate", "nat", "bat"}))
 }
 
 func groupAnagrams(strs []string) [][]string {
@@ -51,6 +52,28 @@ func groupAnagrams(strs []string) [][]string {
 		hash[string(s)] = arr
 	}
 	// fmt.Println(hash)
+	var ans [][]string
+	for _, vals := range hash {
+		ans = append(ans, vals)
+	}
+	return ans
+}
+
+func groupAnagramsFast(strs []string) [][]string {
+	if len(strs) == 1 {
+		return [][]string{{strs[0]}}
+	}
+	hash := make(map[[26]int][]string)
+	for _, str := range strs {
+		arr := [26]int{}
+		for _, r := range str {
+			arr[r-97] = arr[r-97] + 1
+		}
+		// fmt.Println(arr)
+		wordsArr, _ := hash[arr]
+		wordsArr = append(wordsArr, str)
+		hash[arr] = wordsArr
+	}
 	var ans [][]string
 	for _, vals := range hash {
 		ans = append(ans, vals)
